@@ -1,0 +1,56 @@
+{
+  "name": "express-js-boilerplate",
+  "version": "1.0.0",
+  "description": "Get started quickly with Express.",
+  "sourceType": "module",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node src/app.js",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yottaawesome/express-js-boilerplate.git"
+  },
+  "keywords": [
+    "node",
+    "express"
+  ],
+  "author": "Vasilios Magriplis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yottaawesome/express-js-boilerplate/issues"
+  },
+  "homepage": "https://github.com/yottaawesome/express-js-boilerplate#readme",
+  "devDependencies": {
+    "@babel/core": "^7.22.20",
+    "@babel/node": "^7.22.19",
+    "@babel/preset-env": "^7.22.20",
+    "eslint": "^8.49.0",
+    "eslint-plugin-node": "^11.1.0",
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.7",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.18.0",
+    "express-ws": "^5.0.2",
+    "mongodb": "^6.4.0",
+    "mongoose": "^8.2.1",
+    "node-cache": "^5.1.2",
+    "node-cron": "^3.0.3",
+    "node-fetch": "^3.3.2",
+    "otplib": "^12.0.1",
+    "rxdb": "^15.10.0",
+    "smartapi-javascript": "^1.0.22",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5"
+  }
+}
