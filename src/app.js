@@ -5,18 +5,19 @@ import fs from "fs";
 import session, { MemoryStore } from "express-session";
 const express = require("express");
 const sessionStore = new MemoryStore();
-import { WebSocketV2 } from "smartapi-javascript";
 
-import { connect } from "./middleware/smartAPI";
+const path = require("path");
+
 const mongoose = require("mongoose");
 
 //const saltRounds = 10;
 const app = express();
 
 const corsOptions = {
-  origin: 'http://localhost:1234',
-  credentials: true
+  origin: "http://localhost:1234",
+  credentials: true,
 };
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cors(corsOptions));
 
@@ -30,20 +31,18 @@ app.use(cors(corsOptions));
 //   }
 // });
 
-
 // io.use((socket, next) => {
 //   // Adding CORS headers for WebSocket handshake
 //   socket.handshake.headers.origin = socket.request.headers.origin;
 //   next();
 // });
 
-
 app.use(
   session({
     secret: "this-secret-has-to-be-changed-when-used-in-production",
     saveUninitialized: false,
     resave: false,
-    store: sessionStore
+    store: sessionStore,
     // set below cookie if you want to expire user session in one our and invalidate cookie.
     /*cookie: {
     maxAge: 60000 * 60,
@@ -68,7 +67,7 @@ const port = process.env.PORT || 3000;
 const cache = new NodeCache();
 
 // Flag to indicate whether to fetch data from the remote server
-const fetchFromRemote = false;
+const fetchFromRemote = true;
 
 // Function to fetch and cache data from the remote server
 // Function to fetch and cache data
@@ -149,7 +148,6 @@ async function startApp() {
     // io.on("connection", (socket) => {
     //   console.log("A user connected!");
 
-    
     //   // Handle incoming messages from the client
     //   socket.on("private_message", (message) => {
     //     console.log("Received message:", message);
@@ -157,15 +155,13 @@ async function startApp() {
     //       getSessionData(message.sessionId)
     //         .then((sessionData) => {
 
-
     //           let web_socket = new WebSocketV2({
     //             jwttoken: sessionData.jwtToken,
     //             apikey: sessionData.api_key,
     //             clientcode: sessionData.userId,
     //             feedtype: sessionData.feedToken,
     //           });
-   
-        
+
     //           web_socket.connect().then((res) => {
     //             let json_req = {
     //               correlationID: "abcde12345",
@@ -183,15 +179,15 @@ async function startApp() {
     //                 ],
     //               },
     //             };
-        
+
     //             console.log(json_req)
-        
+
     //             web_socket.fetchData(json_req);
     //             web_socket.on("tick", receiveTick);
-        
+
     //             function receiveTick(data) {
     //               console.log("Checking for tokens " + message.message)
-                  
+
     //               console.log("receiveTick:::::", data);
     //               socket.emit("server_message", data);
     //             }
@@ -203,10 +199,9 @@ async function startApp() {
     //         });
     //     }
     //     // Send data back to the client (optional)
-       
-        
+
     //   });
-    
+
     //   // Handle socket disconnection
     //   socket.on("disconnect", () => {
     //     console.log("A user disconnected!");
@@ -218,13 +213,17 @@ async function startApp() {
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
     });
-
   } catch (error) {
     console.error("Error starting the app:", error);
   }
 }
 
 // Routes
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 app.get("/api/v1/getscripts", async (req, res) => {
   try {
     const rawData = fs.readFileSync("./data/scriptData.json");
@@ -311,9 +310,6 @@ app.get("/api/v1/getdetails", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
-
-
 
 // Schedule cache refresh every 1 hours
 cron.schedule("0 */1 * * *", async () => {
