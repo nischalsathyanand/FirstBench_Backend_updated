@@ -51,10 +51,10 @@ app.use(
 );
 app.use(express.json());
 // mongodb connections
-mongoose.connect("mongodb://localhost:27017/firstbench", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const uri =
+  "mongodb+srv://nischalsathyanand:nischal123@cluster0.06igqyd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
+mongoose.connect(uri);
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function () {
